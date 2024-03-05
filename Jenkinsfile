@@ -10,16 +10,16 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t akshu20791/2febimg:v1 .'
+                    sh 'docker build -t karthikhr97/phpprojectimg:v1.11 .'
                     sh 'docker images'
                 }
             }
         }
           stage('Docker login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akshu20791/2febimg:v1'
+                    sh 'docker push karthikhr97/phpprojectimg:v1.11'
                 }
             }
         }
@@ -28,12 +28,12 @@ pipeline {
             steps {
                script {
                    def dockerrm = 'sudo docker rm -f My-first-containe221 || true'
-                    def dockerCmd = 'sudo docker run -itd --name My-first-containe221 -p 8082:80 akshu20791/2febimg:v1'
+                    def dockerCmd = 'sudo docker run -itd --name My-first-containe221 -p 8082:80 karthikhr97/phpprojectimg:v1.11'
                     sshagent(['sshkeypair']) {
                         //chnage the private ip in below code
-                        // sh "docker run -itd --name My-first-containe211 -p 8082:80 akshu20791/2febimg:v1"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.19.93 ${dockerrm}"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.19.93 ${dockerCmd}"
+                        // sh "docker run -itd --name My-first-containe211 -p 8082:80 karthikhr97/phpprojectimg:v1.11"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.91.190 ${dockerrm}"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.91.190 ${dockerCmd}"
                     }
                 }
             }
