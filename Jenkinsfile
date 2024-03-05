@@ -29,7 +29,7 @@ pipeline {
                script {
                    def dockerrm = 'sudo docker rm -f My-first-containe221 || true'
                     def dockerCmd = 'sudo docker run -itd --name My-first-containe221 -p 8082:80 karthikhr97/phpprojectimg:v1.11'
-                    sshagent(['sshkeypair']) {
+                    sshagent(['sshprivatekey']) {
                         //chnage the private ip in below code
                         // sh "docker run -itd --name My-first-containe211 -p 8082:80 karthikhr97/phpprojectimg:v1.11"
                          sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.91.190 ${dockerrm}"
